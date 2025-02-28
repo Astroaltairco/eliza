@@ -580,7 +580,12 @@ export class AgentRuntime implements IAgentRuntime {
                 "client stop for",
                 this.character.name,
             );
-            c.stop();
+            // it doesn't have a strict interface specification, and some don't have STOP methods
+            if (c && c?.stop) {
+                c.stop();
+            } else {
+                elizaLogger.log("client stop skip,", cStr, this.character.name);
+            }
         }
         // we don't need to unregister with directClient
         // don't need to worry about knowledge
